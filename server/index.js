@@ -1,8 +1,3 @@
-/**
- * TaskForge Backend Server
- * Provides REST API for task management with MySQL persistence
- */
-
 import express from 'express';
 import mysql from 'mysql2/promise';
 import cors from 'cors';
@@ -18,11 +13,9 @@ const __dirname = dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// MySQL connection pool
 const pool = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'taskflow',
@@ -33,12 +26,10 @@ const pool = mysql.createPool({
   queueLimit: 0,
 });
 
-// In-memory storage fallback for development
 let memoryTasks = [];
 let taskIdCounter = 1;
 let dbAvailable = false;
 
-// Check database availability
 pool.getConnection()
   .then(() => {
     dbAvailable = true;
@@ -49,7 +40,6 @@ pool.getConnection()
     console.log('⚠️  Database unavailable - using in-memory storage');
   });
 
-// Health check
 app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'OK', 
@@ -58,7 +48,6 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// GET all tasks
 app.get('/api/tasks', async (req, res) => {
   try {
     if (dbAvailable) {
@@ -73,7 +62,6 @@ app.get('/api/tasks', async (req, res) => {
   }
 });
 
-// POST create task
 app.post('/api/tasks', async (req, res) => {
   const { title, description, completed } = req.body;
 
@@ -114,7 +102,6 @@ app.post('/api/tasks', async (req, res) => {
   }
 });
 
-// PUT update task
 app.put('/api/tasks/:id', async (req, res) => {
   const { id } = req.params;
   const { completed } = req.body;
@@ -145,7 +132,6 @@ app.put('/api/tasks/:id', async (req, res) => {
   }
 });
 
-// DELETE task
 app.delete('/api/tasks/:id', async (req, res) => {
   const { id } = req.params;
 
@@ -168,7 +154,6 @@ app.delete('/api/tasks/:id', async (req, res) => {
   }
 });
 
-// Start server
 app.listen(PORT, () => {
   console.log(`🚀 TaskForge API running on http://localhost:${PORT}`);
   console.log(`📊 Health check: http://localhost:${PORT}/api/health`);

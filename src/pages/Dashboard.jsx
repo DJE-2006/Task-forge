@@ -21,7 +21,6 @@ export default function Dashboard() {
         <p className="text-gray-600 dark:text-gray-400">Welcome back! Here's what's happening today.</p>
       </div>
 
-      {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
         {stats.map((stat, index) => (
           <div
@@ -45,7 +44,6 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Recent Activity */}
         <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg">
           <h2 className="text-xl font-bold mb-6">Recent Activity</h2>
           <div className="space-y-4">
@@ -67,7 +65,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Productivity Tips */}
         <div className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl p-6 shadow-lg">
           <h2 className="text-xl font-bold text-white mb-6">Productivity Tips</h2>
           <div className="space-y-4">

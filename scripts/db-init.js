@@ -1,11 +1,5 @@
 #!/usr/bin/env node
 
-/**
- * Database initialization script
- * Reads and executes SQL from db/init.sql or db/init_xampp.sql
- * Usage: node scripts/db-init.js [--xampp]
- */
-
 import fs from 'fs';
 import path from 'path';
 import mysql from 'mysql2/promise';

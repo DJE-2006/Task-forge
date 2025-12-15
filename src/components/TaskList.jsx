@@ -1,10 +1,15 @@
 import { useState, useEffect } from "react";
 
-// Use Vercel API for deployed version, localhost for dev
 const API_URL = import.meta.env.VITE_API_URL || 
   (typeof window !== 'undefined' && window.location.hostname === 'localhost' 
     ? "http://localhost:3000" 
     : "/api");
+
+const apiPath = (path) => {
+  const base = (API_URL || '').replace(/\/$/, '');
+  const p = (path || '').replace(/^\//, '');
+  return `${base}/${p}`;
+};
 
 export default function TaskList() {
   const [tasks, setTasks] = useState([]);
@@ -15,7 +20,6 @@ export default function TaskList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Fetch tasks from API on mount
   useEffect(() => {
     fetchTasks();
   }, []);
@@ -24,14 +28,13 @@ export default function TaskList() {
     try {
       setLoading(true);
       setError("");
-      const response = await fetch(`${API_URL}/api/tasks`);
+      const response = await fetch(apiPath('/tasks'));
       if (!response.ok) throw new Error("Failed to fetch tasks");
       const data = await response.json();
       setTasks(Array.isArray(data) ? data : data.tasks || []);
     } catch (err) {
       console.error("Error fetching tasks:", err);
       setError("Unable to connect to server. Using local storage fallback.");
-      // Fallback to localStorage
       const saved = localStorage.getItem("tasks");
       setTasks(saved ? JSON.parse(saved) : []);
     } finally {
@@ -42,7 +45,7 @@ export default function TaskList() {
   const addTask = async () => {
     if (input.trim() === "") return;
     try {
-      const response = await fetch(`${API_URL}/api/tasks`, {
+      const response = await fetch(apiPath('/tasks'), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -57,7 +60,6 @@ export default function TaskList() {
       await fetchTasks();
     } catch (err) {
       console.error("Error adding task:", err);
-      // Fallback: add to localStorage
       const newTask = {
         id: Date.now(),
         title: input,
@@ -73,14 +75,13 @@ export default function TaskList() {
 
   const removeTask = async (id) => {
     try {
-      const response = await fetch(`${API_URL}/api/tasks/${id}`, {
+      const response = await fetch(apiPath(`/tasks/${id}`), {
         method: "DELETE",
       });
       if (!response.ok) throw new Error("Failed to delete task");
       setTasks(tasks.filter(task => task.id !== id));
     } catch (err) {
       console.error("Error deleting task:", err);
-      // Fallback: delete from local state
       setTasks(tasks.filter(task => task.id !== id));
     }
   };
@@ -89,7 +90,7 @@ export default function TaskList() {
     const task = tasks.find(t => t.id === id);
     if (!task) return;
     try {
-      const response = await fetch(`${API_URL}/api/tasks/${id}`, {
+      const response = await fetch(apiPath(`/tasks/${id}`), {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ completed: !task.completed }),
@@ -100,7 +101,6 @@ export default function TaskList() {
       ));
     } catch (err) {
       console.error("Error updating task:", err);
-      // Fallback: update local state
       setTasks(tasks.map(t =>
         t.id === id ? { ...t, completed: !t.completed } : t
       ));

@@ -12,7 +12,6 @@ export default function About() {
 
   return (
     <div className="max-w-6xl mx-auto">
-      {/* Hero Section */}
       <div className="text-center mb-16">
         <div className="inline-block mb-6">
           <div className="w-20 h-20 mx-auto bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-2xl">
@@ -20,15 +19,16 @@ export default function About() {
           </div>
         </div>
         <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-          About Task Flow
+          About Task Forge
+
         </h1>
         <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+          
           The ultimate productivity companion designed to streamline your workflow and 
           help you achieve more with less effort.
         </p>
       </div>
 
-      {/* Features Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
         {features.map((feature, index) => (
           <div
@@ -46,7 +46,6 @@ export default function About() {
         ))}
       </div>
 
-      {/* Team Section */}
       <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-3xl p-12 mb-16">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold mb-4">Meet Our Team</h2>

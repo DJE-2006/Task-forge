@@ -3,7 +3,6 @@ import TaskList from "../components/TaskList";
 export default function Home() {
   return (
     <div className="min-h-[80vh] flex flex-col items-center justify-center">
-      {/* Hero Section */}
       <div className="text-center max-w-4xl mx-auto mb-12 px-4">
         <div className="inline-block mb-6">
           <div className="w-24 h-24 mx-auto bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-2xl animate-pulse-slow">
@@ -32,14 +31,12 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Task List Container - Centered */}
       <div className="w-full max-w-4xl mx-auto">
         <div className="bg-white dark:bg-gray-800/50 backdrop-blur-sm rounded-3xl shadow-2xl p-2 border border-gray-200 dark:border-gray-700">
           <TaskList />
         </div>
       </div>
 
-      {/* Quick Stats - Centered */}
       <div className="mt-12 text-center">
         <p className="text-gray-500 dark:text-gray-400 text-sm">
           Start organizing your tasks today and experience the power of focused productivity.

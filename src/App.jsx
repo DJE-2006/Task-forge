@@ -26,7 +26,6 @@ export default function App() {
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900/20 transition-all duration-500">
         <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
         
-        {/* Main content container with perfect centering */}
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -35,7 +34,6 @@ export default function App() {
           </Routes>
         </div>
 
-        {/* Centered Footer */}
         <footer className="mt-16 pt-8 pb-6 border-t border-gray-200 dark:border-gray-700">
           <div className="max-w-7xl mx-auto px-4 text-center">
             <div className="flex flex-col items-center space-y-4">

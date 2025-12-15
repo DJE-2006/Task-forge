@@ -1,12 +1,7 @@
-// Vercel Serverless Function - Tasks API
-// This handles all task operations
-
-// In-memory storage for development/preview
 let memoryTasks = [];
 let taskIdCounter = 1;
 
 export default function handler(req, res) {
-  // Enable CORS
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
@@ -20,7 +15,6 @@ export default function handler(req, res) {
     return;
   }
 
-  // GET all tasks
   if (req.method === 'GET') {
     res.status(200).json(
       memoryTasks.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
@@ -28,7 +22,6 @@ export default function handler(req, res) {
     return;
   }
 
-  // POST create task
   if (req.method === 'POST') {
     const { title, description, completed, priority } = req.body;
 
@@ -51,7 +44,6 @@ export default function handler(req, res) {
     return;
   }
 
-  // PUT update task
   if (req.method === 'PUT') {
     const { id } = req.query;
     const { completed, title, description } = req.body;
@@ -70,7 +62,6 @@ export default function handler(req, res) {
     return;
   }
 
-  // DELETE task
   if (req.method === 'DELETE') {
     const { id } = req.query;
 

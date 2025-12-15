@@ -15,7 +15,6 @@ export default function Navbar({ darkMode, setDarkMode }) {
     <nav className="sticky top-0 z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row items-center justify-between h-20">
-          {/* Logo Section - Centered on mobile, left on desktop */}
           <div className="flex items-center justify-center sm:justify-start w-full sm:w-auto mb-4 sm:mb-0">
             <Link to="/" className="flex items-center space-x-3 group">
               <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-300">
@@ -30,9 +29,7 @@ export default function Navbar({ darkMode, setDarkMode }) {
             </Link>
           </div>
 
-          {/* Navigation and Controls - Centered */}
           <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6 w-full sm:w-auto">
-            {/* Navigation Links */}
             <div className="flex items-center space-x-2 bg-gray-100 dark:bg-gray-800/50 rounded-xl p-1">
               {navItems.map((item) => (
                 <Link
@@ -50,7 +47,6 @@ export default function Navbar({ darkMode, setDarkMode }) {
               ))}
             </div>
 
-            {/* Theme Toggle and Profile */}
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => setDarkMode(!darkMode)}
@@ -67,7 +63,6 @@ export default function Navbar({ darkMode, setDarkMode }) {
                 </div>
               </button>
 
-              {/* User Profile */}
               <div className="relative group">
                 <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-full flex items-center justify-center text-white font-bold cursor-pointer shadow-lg hover:scale-105 transition-transform duration-300">
                   DJ

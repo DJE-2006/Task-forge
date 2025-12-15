@@ -5,7 +5,6 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 
 export default [
   { ignores: ['dist', 'node_modules', '*.html'] },
-  // Browser/Frontend files
   {
     files: ['src/**/*.{js,jsx}'],
     languageOptions: {
@@ -28,7 +27,6 @@ export default [
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
     },
   },
-  // Node.js/Backend files
   {
     files: ['server/**/*.js', 'scripts/**/*.js'],
     languageOptions: {
