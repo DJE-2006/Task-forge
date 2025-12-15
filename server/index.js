@@ -5,6 +5,8 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+import { users } from '../api/auth/store.js';
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -147,6 +149,55 @@ app.delete('/api/tasks/:id', async (req, res) => {
     memoryTasks = memoryTasks.filter(t => t.id !== parseInt(id));
     res.json({ message: 'Task deleted successfully' });
   }
+});
+
+// Local auth endpoints to mirror Vercel serverless functions for development
+app.post('/api/auth/register', (req, res) => {
+  const { email, password, name } = req.body || {};
+
+  if (!email || !password || !name) {
+    return res.status(400).json({ error: 'Name, email and password are required' });
+  }
+
+  if (users.has(email)) {
+    return res.status(409).json({ error: 'User already exists' });
+  }
+
+  const newUser = {
+    id: Date.now().toString(),
+    email,
+    password,
+    name,
+    created_at: new Date().toISOString(),
+  };
+
+  users.set(email, newUser);
+
+  res.status(201).json({
+    user: {
+      id: newUser.id,
+      email: newUser.email,
+      name: newUser.name,
+    },
+    token: `token_${newUser.id}`,
+  });
+});
+
+app.post('/api/auth/login', (req, res) => {
+  const { email, password } = req.body || {};
+
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Email and password are required' });
+  }
+
+  const user = users.get(email);
+  if (!user) return res.status(401).json({ error: 'User not found' });
+  if (user.password !== password) return res.status(401).json({ error: 'Invalid password' });
+
+  res.json({
+    user: { id: user.id, email: user.email, name: user.name },
+    token: `token_${user.id}`,
+  });
 });
 
 app.listen(PORT, () => {
