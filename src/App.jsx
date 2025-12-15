@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 function AppContent() {
   const { user, loading } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem("darkMode");
     return saved === "true" || false;
@@ -25,6 +26,15 @@ function AppContent() {
       htmlEl.classList.remove('dark');
     }
   }, [darkMode]);
+
+  // If not authenticated, send the user to the login screen on initial load
+  useEffect(() => {
+    if (!loading && !user) {
+      if (location.pathname !== '/register' && location.pathname !== '/login') {
+        navigate('/login');
+      }
+    }
+  }, [loading, user, location.pathname, navigate]);
 
   return (
     <div>
