@@ -41,7 +41,7 @@ export default function Register() {
     if (result.success) {
       navigate('/dashboard');
     } else {
-      setError(result.error);
+      setError(result.error || 'Unable to create account');
     }
 
     setLoading(false);

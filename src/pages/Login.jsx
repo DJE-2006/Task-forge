@@ -27,7 +27,7 @@ export default function Login() {
     if (result.success) {
       navigate('/dashboard');
     } else {
-      setError(result.error);
+      setError(result.error || 'Unable to sign in');
     }
 
     setLoading(false);

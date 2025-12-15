@@ -31,12 +31,7 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ email, password }),
       });
 
-      let data = null;
-      try {
-        data = await response.json();
-      } catch (e) {
-        // ignore JSON parse errors
-      }
+      const data = await response.json().catch(() => null);
 
       if (!response.ok) {
         const msg = (data && data.error) || response.statusText || 'Login failed';
@@ -63,12 +58,7 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ email, password, name }),
       });
 
-      let data = null;
-      try {
-        data = await response.json();
-      } catch (e) {
-        // ignore
-      }
+      const data = await response.json().catch(() => null);
 
       if (!response.ok) {
         const msg = (data && data.error) || response.statusText || 'Registration failed';
