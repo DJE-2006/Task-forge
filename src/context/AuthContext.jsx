@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+  const API_URL = import.meta.env.VITE_API_URL || '/api';
 
   const login = async (email, password) => {
     try {
@@ -32,10 +32,16 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await response.json();
+      let data = null;
+      try {
+        data = await response.json();
+      } catch (e) {
+        // ignore JSON parse errors
+      }
 
       if (!response.ok) {
-        throw new Error(data.error || 'Login failed');
+        const msg = (data && data.error) || response.statusText || 'Login failed';
+        throw new Error(msg);
       }
 
       setUser(data.user);
@@ -58,10 +64,16 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ email, password, name }),
       });
 
-      const data = await response.json();
+      let data = null;
+      try {
+        data = await response.json();
+      } catch (e) {
+        // ignore
+      }
 
       if (!response.ok) {
-        throw new Error(data.error || 'Registration failed');
+        const msg = (data && data.error) || response.statusText || 'Registration failed';
+        throw new Error(msg);
       }
 
       setUser(data.user);
