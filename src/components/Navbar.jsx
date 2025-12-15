@@ -1,7 +1,10 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function Navbar({ darkMode, setDarkMode }) {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
   
   const isActive = (path) => location.pathname === path;
 
@@ -63,28 +66,51 @@ export default function Navbar({ darkMode, setDarkMode }) {
                 </div>
               </button>
 
-              <div className="relative group">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-full flex items-center justify-center text-white font-bold cursor-pointer shadow-lg hover:scale-105 transition-transform duration-300">
-                  DJ
-                </div>
-                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                  <div className="p-4 border-b border-gray-100 dark:border-gray-700">
-                    <p className="font-semibold">Dhruv Jae</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">dhruv@taskflow.com</p>
+              {user ? (
+                <div className="relative group">
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-full flex items-center justify-center text-white font-bold cursor-pointer shadow-lg hover:scale-105 transition-transform duration-300">
+                    {user.name?.substring(0, 2).toUpperCase() || "U"}
                   </div>
-                  <div className="p-2">
-                    <button className="w-full text-left px-4 py-3 text-sm rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                      👤 Profile Settings
-                    </button>
-                    <button className="w-full text-left px-4 py-3 text-sm rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                      ⚙️ Settings
-                    </button>
-                    <button className="w-full text-left px-4 py-3 text-sm rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-red-500 transition-colors">
-                      🚪 Logout
-                    </button>
+                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                    <div className="p-4 border-b border-gray-100 dark:border-gray-700">
+                      <p className="font-semibold">{user.name}</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">{user.email}</p>
+                    </div>
+                    <div className="p-2">
+                      <button className="w-full text-left px-4 py-3 text-sm rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                        👤 Profile Settings
+                      </button>
+                      <button className="w-full text-left px-4 py-3 text-sm rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                        ⚙️ Settings
+                      </button>
+                      <button 
+                        onClick={() => {
+                          logout();
+                          navigate('/login');
+                        }}
+                        className="w-full text-left px-4 py-3 text-sm rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-red-500 transition-colors"
+                      >
+                        🚪 Logout
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                <div className="flex items-center space-x-3">
+                  <Link
+                    to="/login"
+                    className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="px-4 py-2 text-sm font-medium bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all duration-300"
+                  >
+                    Sign Up
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>
