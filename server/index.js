@@ -13,8 +13,11 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+const DB_PORT = process.env.DB_PORT ? Number(process.env.DB_PORT) : 3306;
+
 const pool = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
+  port: DB_PORT,
   user: process.env.DB_USER || 'taskflow',
   password: process.env.DB_PASS || 'ChangeMe123!',
   database: process.env.DB_NAME || 'task_flow_db',
@@ -38,6 +41,7 @@ pool.getConnection()
     // Helpful debug output (does not print password)
     try {
       console.error(`DB connect error: ${err && err.message ? err.message : err}`);
+      if (err && err.stack) console.error(err.stack.split('\n').slice(0,5).join('\n'));
     } catch (e) {
       console.error('Error logging DB connection error', e);
     }
