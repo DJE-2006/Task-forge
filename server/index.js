@@ -70,7 +70,7 @@ app.get('/api/tasks', async (req, res) => {
 });
 
 app.post('/api/tasks', async (req, res) => {
-  const { title, description, completed } = req.body;
+  const { title, description, completed, priority } = req.body;
 
   if (!title) {
     return res.status(400).json({ error: 'Title is required' });
@@ -82,13 +82,14 @@ app.post('/api/tasks', async (req, res) => {
       title,
       description: description || null,
       completed: completed ? 1 : 0,
+      priority: priority || 'medium',
       created_at: new Date().toISOString(),
     };
 
     if (dbAvailable) {
       const [result] = await pool.query(
-        'INSERT INTO tasks (title, description, completed) VALUES (?, ?, ?)',
-        [title, description || null, completed ? 1 : 0]
+        'INSERT INTO tasks (title, description, completed, priority) VALUES (?, ?, ?, ?)',
+        [title, description || null, completed ? 1 : 0, priority || 'medium']
       );
       newTask.id = result.insertId;
     } else {
@@ -103,6 +104,7 @@ app.post('/api/tasks', async (req, res) => {
       title,
       description: description || null,
       completed: completed ? 1 : 0,
+      priority: priority || 'medium',
       created_at: new Date().toISOString(),
     });
     res.status(201).json(memoryTasks[memoryTasks.length - 1]);

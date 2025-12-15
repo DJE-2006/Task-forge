@@ -46,9 +46,9 @@ function AppContent() {
         
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <Routes>
-            <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login />} />
-            <Route path="/register" element={user ? <Navigate to="/dashboard" /> : <Register />} />
-            <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Home />} />
+            <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
+            <Route path="/register" element={user ? <Navigate to="/" /> : <Register />} />
+            <Route path="/" element={user ? <Home /> : <Navigate to="/login" />} />
             <Route path="/about" element={<About />} />
             <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/login" />} />
           </Routes>

@@ -48,4 +48,3 @@ export default function handler(req, res) {
     token: `token_${user.id}`,
   });
 }
-}

@@ -31,8 +31,12 @@ export default [
     files: ['server/**/*.js', 'scripts/**/*.js'],
     languageOptions: {
       ecmaVersion: 'latest',
-      sourceType: 'commonjs',
+      sourceType: 'module',
       globals: globals.node,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module'
+      },
     },
     rules: {
       ...js.configs.recommended.rules,
