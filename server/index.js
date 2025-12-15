@@ -32,9 +32,15 @@ pool.getConnection()
     dbAvailable = true;
     console.log('✅ Database connected');
   })
-  .catch(() => {
+  .catch((err) => {
     dbAvailable = false;
-    console.log('⚠️  Database unavailable - using in-memory storage');
+    console.error('⚠️  Database unavailable - using in-memory storage');
+    // Helpful debug output (does not print password)
+    try {
+      console.error(`DB connect error: ${err && err.message ? err.message : err}`);
+    } catch (e) {
+      console.error('Error logging DB connection error', e);
+    }
   });
 
 app.get('/api/health', (req, res) => {
